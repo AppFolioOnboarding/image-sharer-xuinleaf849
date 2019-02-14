@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def home
-    render plain: "Hi Nella"
+    render plain: "#"
   end
 
 end
