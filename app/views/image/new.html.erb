@@ -1,0 +1,12 @@
+<h1>add the URL of your favorite image! </h1>
+
+<%= form_with scope: :image, url: images_path, local: true do |form| %>
+    <p>
+      <%= form.text_field :url %>
+    </p>
+
+    <p>
+      <%= form.submit "Add image" %>
+    </p>
+<% end %>
+
