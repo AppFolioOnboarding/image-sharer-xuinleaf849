@@ -1,6 +1,6 @@
 <h1>add the URL of your favorite image! </h1>
 
-<%= form_for(@image, url: images_path) do |form| %>
+<%= form_for(@image, imagelink: images_path) do |form| %>
     <p>
       <%= form.text_field :imagelink %>
     </p>
@@ -8,5 +8,14 @@
     <p>
       <%= form.submit "Add image" %>
     </p>
+
+
 <% end %>
 
+
+
+<% if @image.errors.any? %>
+    <% @image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+    <% end %>
+<% end %>
