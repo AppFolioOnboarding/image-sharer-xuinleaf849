@@ -17,5 +17,4 @@ class ImageTest < ActiveSupport::TestCase
     assert_not_predicate image_invalid2, :valid?
     assert_equal "can't be blank", image_invalid2.errors[:imagelink].first
   end
-
 end

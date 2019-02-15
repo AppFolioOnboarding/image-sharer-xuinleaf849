@@ -1,5 +1,4 @@
 class ImagesController < ApplicationController
-
   def new
     @image = Image.new
   end
@@ -18,5 +17,4 @@ class ImagesController < ApplicationController
   def show
     @image_url = Image.find(params[:id]).imagelink
   end
-
 end

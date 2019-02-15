@@ -17,9 +17,10 @@ gem 'jquery-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-gem 'validate_url'
 gem 'rails_refactor'
+gem 'validate_url'
 
+# gem 'rubocop', '~> 0.64.0', require: false
 gem 'webpacker', '~> 3.0'
 
 group :development, :test do
