@@ -3,6 +3,15 @@
 <ul>
   <% @images.each do |image| %>
       <li><%= image_tag(image.imagelink, width: '400px') %>
+        <% if image.tag_list.present? %>
+            <p><strong>Related tags:</strong></p>
+        <% else %>
+            <p>No tag found for it.</p>
+        <% end %>
+
+        <% image.tag_list.each do |tag| %>
+            <p class='tag_class'>  <%= tag %></p>
+        <% end %>
       </li>
   <% end %>
 

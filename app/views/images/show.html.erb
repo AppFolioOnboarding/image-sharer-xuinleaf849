@@ -1,3 +1,16 @@
 <p>
   <%= image_tag @image_url, class: 'image-show' %>
 </p>
+
+<% if @image_tag_list.present? %>
+    <p>Related Tags:</p>
+    <ul>
+      <% @image_tag_list.each do |tag| %>
+          <li><%= tag %></li>
+      <% end %>
+    </ul>
+<% else %>
+    <p></p>
+<% end %>
+
+

@@ -20,9 +20,9 @@ class ImageTest < ActiveSupport::TestCase
 
   def test_image__taggable
     image = Image.new
-    image.tag_list.add('awesome')
-    assert_equal image.tag_list, ['awesome']
+    image.tag_list.add('awesome', 'perfect')
+    assert_equal image.tag_list, %w[awesome perfect]
     image.tag_list.remove('awesome')
-    assert_equal image.tag_list, []
+    assert_equal image.tag_list, ['perfect']
   end
 end
