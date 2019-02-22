@@ -2,7 +2,7 @@ class ImagesController < ApplicationController
   def index
     if params[:tag]
       image_associate_to_tag = Image.tagged_with(params[:tag])
-      flash[:alert] = 'No images associate with this tag!' if image_associate_to_tag.empty?
+      flash[:notice] = 'No images associate with this tag!' if image_associate_to_tag.empty?
       @images = image_associate_to_tag.order('created_at DESC')
     else
       @images = Image.all.order('created_at DESC')
@@ -19,7 +19,7 @@ class ImagesController < ApplicationController
     if @image.save
       redirect_to @image
     else
-      flash[:alert] = 'Invalid URL. Please try again!'
+      flash[:notice] = 'Invalid URL. Please try again!'
       render :new
     end
   end
