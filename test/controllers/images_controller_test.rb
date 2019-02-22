@@ -54,7 +54,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       post images_path, params: { image: image_params }
     end
 
-    assert_equal 'Invalid URL. Please try again!', flash[:alert]
+    assert_equal 'Invalid URL. Please try again!', flash[:notice]
   end
 
   def test_show__image_found

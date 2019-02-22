@@ -20,7 +20,6 @@ class ImagesController < ApplicationController
       redirect_to @image
     else
       flash[:notice] = 'Invalid URL. Please try again!'
-      render :new
     end
   end
 
