@@ -30,6 +30,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
 
     assert_select 'li:last-child .tag-class', count: 2
+    assert_select 'li:nth-child(2) .tag-class', count: 0
     assert_select 'li:first-child .tag-class', count: 1
   end
 
