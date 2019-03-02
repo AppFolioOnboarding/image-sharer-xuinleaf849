@@ -1,27 +1,43 @@
 require 'test_helper'
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
-  def test_index
+  def test_index__images_in_desc_order
     images = [
-      { imagelink: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', tag_list: ['appfolio'] },
-      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg' }
+      { imagelink: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', tag_list: %w[appfolio logo] },
+      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg' },
+      { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
     ]
     Image.create(images)
 
     get images_path
     assert_response :ok
     assert_select 'h1', 'Images'
-    assert_select 'img', count: 2
+    assert_select 'img', count: 3
 
     assert_select "li:last-child img[src='#{images[0][:imagelink]}']", count: 1
-    assert_select 'li:last-child .tag_class', count: 1
-    assert_select "li:first-child img[src='#{images[1][:imagelink]}']", count: 1
-    assert_select 'li:first-child .tag_class', count: 0
+    assert_select "li:first-child img[src='#{images[2][:imagelink]}']", count: 1
+  end
+
+  def test_index__tags_with_links
+    images = [
+      { imagelink: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', tag_list: %w[appfolio logo] },
+      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg' },
+      { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
+    ]
+    Image.create(images)
+
+    get images_path
+    assert_response :ok
+
+    assert_select 'li:last-child .tag-class', count: 2
+    assert_select 'li:nth-child(2) .tag-class', count: 0
+    assert_select 'li:first-child .tag-class', count: 1
   end
 
   def test_new
     get new_image_path
     assert_response :ok
+    assert_select 'input#image_tag_list[name=?]', 'image[tag_list]'
   end
 
   def test_create__valid
@@ -39,7 +55,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       post images_path, params: { image: image_params }
     end
 
-    assert_equal 'Invalid URL. Please try again!', flash[:alert]
+    assert_equal 'Invalid URL. Please try again!', flash[:notice]
   end
 
   def test_show__image_found
