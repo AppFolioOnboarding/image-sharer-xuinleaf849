@@ -32,6 +32,20 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'li:last-child .tag-class', count: 2
     assert_select 'li:nth-child(2) .tag-class', count: 0
     assert_select 'li:first-child .tag-class', count: 1
+    assert_select 'a[data-method=delete]', 3
+  end
+
+  def test_index__delete_succeed
+    image = Image.create(imagelink: 'https://www.appfolio.com/images/html/apm-fb-logo.png',
+                         tag_list: %w[appfolio company])
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(image.id)
+    end
+
+    assert_redirected_to images_path
+    assert_equal 'You have successfully deleted the image.', flash[:notice]
+    assert_select 'img', 0
   end
 
   def test_new
@@ -77,5 +91,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image.id)
     assert_response :ok
     assert_select 'li', count: 0
+  end
+
+  def test_destroy
+    image = Image.create(imagelink: 'https://www.appfolio.com/images/html/apm-fb-logo.png',
+                         tag_list: %w[appfolio company])
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(image.id)
+    end
+
+    assert_redirected_to images_path
+    assert_equal 'You have successfully deleted the image.', flash[:notice]
   end
 end

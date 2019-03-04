@@ -13,4 +13,8 @@
     <p></p>
 <% end %>
 
+<%= link_to 'Delete the image', image_path(@image), method: :delete, data: { confirm: 'Are you sure?' } %>
+<br>
+<%= link_to 'Back to Home', images_path %>
+
 
