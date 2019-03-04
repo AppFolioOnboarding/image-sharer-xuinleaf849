@@ -4,7 +4,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_index__images_in_desc_order
     images = [
       { imagelink: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', tag_list: %w[appfolio logo] },
-      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg' },
+      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg', tag_list: %w[foo bar]},
       { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
     ]
     Image.create(images)
@@ -21,7 +21,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_index__tags_with_links
     images = [
       { imagelink: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', tag_list: %w[appfolio logo] },
-      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg' },
+      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg', tag_list: %w[foo bar] },
       { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
     ]
     Image.create(images)
@@ -30,7 +30,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
 
     assert_select 'li:last-child .tag-class', count: 2
-    assert_select 'li:nth-child(2) .tag-class', count: 0
+    assert_select 'li:nth-child(2) .tag-class', count: 2
     assert_select 'li:first-child .tag-class', count: 1
   end
 
@@ -42,24 +42,31 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
   def test_create__valid
     assert_difference('Image.count', 1) do
-      image_params = { imagelink: 'https://i.vimeocdn.com/portrait/328672_300x300' }
+      image_params = { imagelink: 'https://i.vimeocdn.com/portrait/328672_300x300', tag_list: %w[foo bar]  }
       post images_path, params: { image: image_params }
     end
 
     assert_redirected_to image_path(Image.last)
   end
 
-  def test_create__invalid
+  def test_create__invalid_with_url
     assert_no_difference('Image.count') do
-      image_params = { imagelink: 'afdsgasd' }
+      image_params = { imagelink: 'afdsgasd', tag_list: %w[foo bar]  }
       post images_path, params: { image: image_params }
     end
 
     assert_equal 'Invalid URL. Please try again!', flash[:notice]
   end
 
+  def test_create__invalid_with_tag
+    assert_no_difference('Image.count') do
+      image_params = { imagelink: 'https://i.vimeocdn.com/portrait/328672_300x300' }
+      post images_path, params: { image: image_params }
+    end
+  end
+
   def test_show__image_found
-    image_show = Image.create!(imagelink: 'https://images.pexels.com/photos/33053/dog-young-dog-small-dog-maltese.jpg?cs=srgb&dl=animal-dog-maltese-33053.jpg&fm=jpg')
+    image_show = Image.create!(imagelink: 'https://images.pexels.com/photos/33053/dog-young-dog-small-dog-maltese.jpg?cs=srgb&dl=animal-dog-maltese-33053.jpg&fm=jpg', tag_list: %w[foo bar]) # rubocop:disable  Metrics/LineLength
     get image_path(image_show.id)
     assert_response :ok
     assert_select '.image-show', count: 1
@@ -78,4 +85,5 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'li', count: 0
   end
+
 end
