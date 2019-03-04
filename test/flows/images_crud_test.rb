@@ -30,8 +30,8 @@ class ImagesCrudTest < FlowTestCase
     cute_puppy_url = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
     ugly_cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
     Image.create!([
-      { url: cute_puppy_url, tag_list: 'puppy, cute' },
-      { url: ugly_cat_url, tag_list: 'cat, ugly' }
+      { imagelink: cute_puppy_url, tag_list: 'puppy, cute' },
+      { imagelink: ugly_cat_url, tag_list: 'cat, ugly' }
     ])
 
     images_index_page = PageObjects::Images::IndexPage.visit
@@ -62,9 +62,9 @@ class ImagesCrudTest < FlowTestCase
     puppy_url2 = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
     cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
     Image.create!([
-      { url: puppy_url1, tag_list: 'superman, cute' },
-      { url: puppy_url2, tag_list: 'cute, puppy' },
-      { url: cat_url, tag_list: 'cat, ugly' }
+      { imagelink: puppy_url1, tag_list: 'superman, cute' },
+      { imagelink: puppy_url2, tag_list: 'cute, puppy' },
+      { imagelink: cat_url, tag_list: 'cat, ugly' }
     ])
 
     images_index_page = PageObjects::Images::IndexPage.visit
