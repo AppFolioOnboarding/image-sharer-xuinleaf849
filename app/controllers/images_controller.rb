@@ -17,13 +17,15 @@ class ImagesController < ApplicationController
     @image = Image.new(image_params)
 
     if @image.save
-      redirect_to @image
+      flash[:success] = 'You have successfully added an image.'
+      redirect_to image_path(@image)
     else
-      flash[:notice] = 'Invalid URL. Please try again!'
+      render :new
     end
   end
 
   def show
+    @image = Image.find(params[:id])
     @image_tag_list = Image.find(params[:id]).tag_list
     @image_url = Image.find(params[:id]).imagelink
   end
@@ -40,4 +42,5 @@ class ImagesController < ApplicationController
   def image_params
     params.require(:image).permit(:imagelink, :tag_list)
   end
+
 end

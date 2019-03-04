@@ -4,11 +4,11 @@ module PageObjects
       path :image
 
       def image_url
-        # TODO
+        node.find('img')[:src]
       end
 
       def tags
-        # TODO
+        node.all('p a').map(&:text).first.split
       end
 
       def delete
@@ -22,7 +22,8 @@ module PageObjects
       end
 
       def go_back_to_index!
-        # TODO
+        node.click_on('Back to Home')
+        window.change_to(IndexPage)
       end
     end
   end

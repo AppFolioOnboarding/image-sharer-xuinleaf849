@@ -1,14 +1,12 @@
+<%= button_to "Add new image", new_image_path, method: :get %>
+
 <h1>Images</h1>
 
-<% if notice %>
-    <p id="notice"><%= notice %></p>
-<% else %>
-    <p></p>
-<% end %>
-
-<ul>
+<table id="images_list" class="row">
   <% @images.each do |image| %>
-      <li><%= image_tag(image.imagelink, width: '400px') %>
+      <tr id="js-image-card">
+        <%= link_to(image_tag(image.imagelink, class: "image-display"), image_path(image.id), class: "js-image-link") %>
+        <%= link_to 'Delete', image_path(image.id), method: :delete, data: { confirm: 'Are you sure?' } %>
         <% if image.tag_list.present? %>
 
             <% image.tag_list.each do |tag| %>
@@ -19,9 +17,10 @@
         <% else %>
             <p></p>
         <% end %>
-
-
-      </li>
+      </tr>
   <% end %>
+</table>
 
-</ul>
+
+
+<%= button_to "Clear tag filter" , images_path, method: :get%>

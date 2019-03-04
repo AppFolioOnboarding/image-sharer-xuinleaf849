@@ -14,7 +14,7 @@ class ImagesCrudTest < FlowTestCase
     assert_equal 'must be a valid URL', new_image_page.url.error_message
 
     image_url = 'https://media3.giphy.com/media/EldfH1VJdbrwY/200.gif'
-    new_image_page.url.set(image_url)
+    new_image_page.imagelink.set(image_url)
 
     image_show_page = new_image_page.create_image!
     assert_equal 'You have successfully added an image.', image_show_page.flash_message(:success)
