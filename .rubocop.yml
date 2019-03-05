@@ -18,6 +18,10 @@ Layout/IndentHash:
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
+
+Metrics/ClassLength:
+  Max: 150
+
 Metrics/LineLength:
   Max: 112  # Maximum line length from `rails new`
 

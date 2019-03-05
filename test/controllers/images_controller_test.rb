@@ -7,15 +7,18 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg' },
       { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
     ]
-    Image.create(images)
+    Image.create(images.reverse)
 
     get images_path
     assert_response :ok
     assert_select 'h1', 'Images'
-    assert_select 'img', count: 3
 
-    assert_select "li:last-child img[src='#{images[0][:imagelink]}']", count: 1
-    assert_select "li:first-child img[src='#{images[2][:imagelink]}']", count: 1
+    assert_select '.js-image-link', 3
+    assert_select '.js-image-link' do |image_elements|
+      image_elements.each_with_index do |image_element, index|
+        assert_select image_element, 'img[src=?]', images[index][:imagelink]
+      end
+    end
   end
 
   def test_index__tags_with_links
@@ -24,14 +27,27 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg' },
       { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
     ]
-    Image.create(images)
+    Image.create(images.reverse)
 
     get images_path
     assert_response :ok
 
-    assert_select 'li:last-child .tag-class', count: 2
-    assert_select 'li:nth-child(2) .tag-class', count: 0
-    assert_select 'li:first-child .tag-class', count: 1
+    assert_equal images[0][:tag_list], %w[appfolio logo]
+    assert_equal images[2][:tag_list], ['appfolio']
+    assert_select 'a[data-method=delete]', 3
+  end
+
+  def test_index__delete_succeed
+    image = Image.create(imagelink: 'https://www.appfolio.com/images/html/apm-fb-logo.png',
+                         tag_list: %w[appfolio company])
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(image.id)
+    end
+
+    assert_redirected_to images_path
+    assert_equal 'You have successfully deleted the image.', flash[:success]
+    assert_select 'img', 0
   end
 
   def test_new
@@ -54,8 +70,6 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       image_params = { imagelink: 'afdsgasd' }
       post images_path, params: { image: image_params }
     end
-
-    assert_equal 'Invalid URL. Please try again!', flash[:notice]
   end
 
   def test_show__image_found
@@ -77,5 +91,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image.id)
     assert_response :ok
     assert_select 'li', count: 0
+  end
+
+  def test_destroy
+    image = Image.create!(imagelink: 'https://www.appfolio.com/images/html/apm-fb-logo.png',
+                          tag_list: %w[appfolio company])
+
+    assert_difference 'Image.count', -1 do
+      delete image_path(image.id)
+    end
+
+    assert_redirected_to images_path
+    assert_equal 'You have successfully deleted the image.', flash[:success]
   end
 end

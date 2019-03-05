@@ -1,12 +1,21 @@
 <h1>add the URL of your favorite image! </h1>
 
-<%= form_for(@image, imagelink: images_path) do |form| %>
-    <p>
-      <%= form.text_field :imagelink, placeholder: 'Image Link' %>
-    </p>
+<%= form_for(@image, url: images_path) do |form| %>
+    <% if @image.errors.any? %>
+        <div id="error_explanation">
+          <ul>
+            <% @image.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
 
     <p>
-      <%= form.text_field :tag_list, placeholder: 'Tag list, seperate with comma'%>
+      <%= form.label  'Image Link' %><br>
+      <%= form.text_field :imagelink %><br>
+      <%= form.label  'Tag list, seperate with comma' %><br>
+      <%= form.text_field :tag_list %>
     </p>
 
     <p>
@@ -16,10 +25,6 @@
 
 <% end %>
 
+<%= button_to "Back to index page", images_path, method: :get %>
 
 
-<% if @image.errors.any? %>
-    <% @image.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-    <% end %>
-<% end %>

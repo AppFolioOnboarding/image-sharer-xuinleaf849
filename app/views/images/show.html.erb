@@ -4,13 +4,17 @@
 
 <% if @image_tag_list.present? %>
     <p>Related Tags:</p>
-    <ul>
+    <ul class="js-image-tags">
       <% @image_tag_list.each do |tag| %>
-          <li><%= tag %></li>
+          <li class="js-tag-card"><%= tag %></li>
       <% end %>
     </ul>
 <% else %>
     <p></p>
 <% end %>
+
+<%= link_to 'Delete the image', image_path(@image), method: :delete, data: { confirm: 'Are you sure?' } %>
+<br>
+<%= link_to 'Back to Home', images_path %>
 
 

@@ -1,27 +1,23 @@
+<%= button_to "Add new image", new_image_path, method: :get %>
+
 <h1>Images</h1>
 
-<% if notice %>
-    <p id="notice"><%= notice %></p>
-<% else %>
-    <p></p>
-<% end %>
-
-<ul>
+<div class="js-image-cards">
   <% @images.each do |image| %>
-      <li><%= image_tag(image.imagelink, width: '400px') %>
-        <% if image.tag_list.present? %>
-
-            <% image.tag_list.each do |tag| %>
-                <div class='tag-class'> <%= link_to tag, images_path(tag: tag) %></div>
-            <% end %>
-            <br>
-          <br>
-        <% else %>
-            <p></p>
-        <% end %>
-
-
-      </li>
+    <span class="js-image-card">
+      <%= link_to image_tag(image.imagelink, class: 'image-display'), image_path(image.id), class: 'js-image-link' %>
+      <%= link_to 'Delete', image_path(image.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% if image.tag_list.present? %>
+        <div class="js-tag-list">
+          <% image.tag_list.each do |tag| %>
+            <%= link_to tag, images_path(tag: tag), class: 'js-tag-card' %>
+          <% end %>
+        </div>
+      <% end %>
+    </span>
   <% end %>
+</div>
 
-</ul>
+<% if @tag_flag %>
+<%= button_to "Clear tag filter" , images_path, method: :get%>
+<% end %>
