@@ -1,7 +1,7 @@
 require 'flow_test_helper'
 
 class ImagesCrudTest < FlowTestCase
-  test 'add an image' do
+  def test_add_an_image
     images_index_page = PageObjects::Images::IndexPage.visit
 
     new_image_page = images_index_page.add_new_image!
@@ -11,7 +11,7 @@ class ImagesCrudTest < FlowTestCase
       url: 'invalid',
       tags: tags.join(', ')
     ).as_a(PageObjects::Images::NewPage)
-    assert_equal 'must be a valid URL', new_image_page.url.error_message
+    assert_equal 'Imagelink is not a valid URL', new_image_page.error_message.text
 
     image_url = 'https://media3.giphy.com/media/EldfH1VJdbrwY/200.gif'
     new_image_page.imagelink.set(image_url)
@@ -28,7 +28,7 @@ class ImagesCrudTest < FlowTestCase
 
   test 'delete an image' do
     cute_puppy_url = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
-    ugly_cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
+    ugly_cat_url = 'http://i0.kym-cdn.com/entries/icons/original/000/007/263/photo_cat2.jpg'
     Image.create!([
       { imagelink: cute_puppy_url, tag_list: 'puppy, cute' },
       { imagelink: ugly_cat_url, tag_list: 'cat, ugly' }
@@ -60,7 +60,7 @@ class ImagesCrudTest < FlowTestCase
   test 'view images associated with a tag' do
     puppy_url1 = 'http://www.pawderosa.com/images/puppies.jpg'
     puppy_url2 = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
-    cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
+    cat_url = 'http://i0.kym-cdn.com/entries/icons/original/000/007/263/photo_cat2.jpg'
     Image.create!([
       { imagelink: puppy_url1, tag_list: 'superman, cute' },
       { imagelink: puppy_url2, tag_list: 'cute, puppy' },

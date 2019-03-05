@@ -3,12 +3,14 @@ module PageObjects
     class ShowPage < PageObjects::Document
       path :image
 
+      collection :tag_elements, locator: '.js-image-tags', item_locator: '.js-tag-card'
+
       def image_url
         node.find('img')[:src]
       end
 
       def tags
-        node.all('p a').map(&:text).first.split
+        tag_elements.map(&:text).first.split(' ')
       end
 
       def delete

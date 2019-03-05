@@ -6,7 +6,7 @@ module PageObjects
       end
 
       def tags
-        node.all('td').last.text.split(', ')
+        node.all('.js-tag-card').map(&:text)
       end
 
       def click_tag!(tag_name)

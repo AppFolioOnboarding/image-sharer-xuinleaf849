@@ -2,7 +2,7 @@ module PageObjects
   module Images
     class NewPage < PageObjects::Document
       path :new_image
-      path :images
+      path :images  #from failed create
 
       form_for :image do
         element :imagelink
@@ -14,7 +14,7 @@ module PageObjects
       def create_image!(url: nil, tags: nil)
         imagelink.set(url) if url.present?
         tag_list.set(tags) if tags.present?
-        node.click_button('Save Image')
+        node.click_button('Add image')
         window.change_to(ShowPage, NewPage)
       end
     end

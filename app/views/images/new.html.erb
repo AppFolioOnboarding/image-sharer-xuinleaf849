@@ -2,9 +2,13 @@
 
 <%= form_for(@image, url: images_path) do |form| %>
     <% if @image.errors.any? %>
-        <% @image.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-        <% end %>
+        <div id="error_explanation">
+          <ul>
+            <% @image.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
     <% end %>
 
     <p>

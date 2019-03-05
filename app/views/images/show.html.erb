@@ -4,9 +4,9 @@
 
 <% if @image_tag_list.present? %>
     <p>Related Tags:</p>
-    <ul>
+    <ul class="js-image-tags">
       <% @image_tag_list.each do |tag| %>
-          <li><%= tag %></li>
+          <li class="js-tag-card"><%= tag %></li>
       <% end %>
     </ul>
 <% else %>
