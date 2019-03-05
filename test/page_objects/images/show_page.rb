@@ -10,7 +10,7 @@ module PageObjects
       end
 
       def tags
-        node.all('.js-tag-card').map(&:text).first.split
+        node.all('.js-tag-card').map(&:text).first.split(' ')
       end
 
       def delete
