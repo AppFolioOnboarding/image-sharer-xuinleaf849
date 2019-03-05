@@ -70,7 +70,6 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       image_params = { imagelink: 'afdsgasd' }
       post images_path, params: { image: image_params }
     end
-
   end
 
   def test_show__image_found
@@ -96,7 +95,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
   def test_destroy
     image = Image.create!(imagelink: 'https://www.appfolio.com/images/html/apm-fb-logo.png',
-                         tag_list: %w[appfolio company])
+                          tag_list: %w[appfolio company])
 
     assert_difference 'Image.count', -1 do
       delete image_path(image.id)

@@ -2,7 +2,7 @@ module PageObjects
   module Images
     class NewPage < PageObjects::Document
       path :new_image
-      path :images  #from failed create
+      path :images # from failed create
 
       form_for :image do
         element :imagelink

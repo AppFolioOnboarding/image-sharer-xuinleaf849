@@ -31,10 +31,10 @@ class ImagesController < ApplicationController
   end
 
   def destroy
-      image = Image.find(params[:id])
-      image.destroy!
-      flash[:success] = 'You have successfully deleted the image.'
-      redirect_to(images_path)
+    image = Image.find(params[:id])
+    image.destroy!
+    flash[:success] = 'You have successfully deleted the image.'
+    redirect_to(images_path)
   end
 
   private
@@ -42,5 +42,4 @@ class ImagesController < ApplicationController
   def image_params
     params.require(:image).permit(:imagelink, :tag_list)
   end
-
 end
