@@ -2,16 +2,7 @@
   <%= image_tag @image_url, class: 'image-show' %>
 </p>
 
-<% if @image_tag_list.present? %>
-    <p>Related Tags:</p>
-    <ul class="js-image-tags">
-      <% @image_tag_list.each do |tag| %>
-          <li class="js-tag-card"><%= tag %></li>
-      <% end %>
-    </ul>
-<% else %>
-    <p></p>
-<% end %>
+<p>Tags: <%= raw(@image.tag_list.map { |t| link_to t, images_path(tag: t) }.join(', ')) %></p>
 
 <%= link_to 'Delete the image', image_path(@image), method: :delete, data: { confirm: 'Are you sure?' } %>
 <br>

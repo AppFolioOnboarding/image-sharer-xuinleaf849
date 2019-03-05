@@ -1,12 +1,12 @@
 class ImagesController < ApplicationController
   def index
-    if params[:tag]
-      image_associate_to_tag = Image.tagged_with(params[:tag])
-      flash[:notice] = 'No images associate with this tag!' if image_associate_to_tag.empty?
-      @images = image_associate_to_tag.order('created_at DESC')
-    else
-      @images = Image.all.order('created_at DESC')
-    end
+    @images = if params[:tag]
+                @tag_flag = true
+                Image.tagged_with(params[:tag]).order(created_at: :desc)
+              else
+                @tag_flag = false
+                Image.order(created_at: :desc).all
+              end
   end
 
   def new

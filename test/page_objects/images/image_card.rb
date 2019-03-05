@@ -6,12 +6,14 @@ module PageObjects
       end
 
       def tags
-        node.all('.js-tag-card').map(&:text)
+        node.all('td').last.text.split(' ')
+      end
+
       end
 
       def click_tag!(tag_name)
         node.click_on(tag_name)
-        window.change_to(IndexPage)
+        window.change_to(IndexPage).
       end
     end
   end

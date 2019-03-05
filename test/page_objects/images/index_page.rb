@@ -17,10 +17,7 @@ module PageObjects
       end
 
       def showing_image?(url:, tags: nil)
-        pp images
         images.any? do |image|
-
-          pp "#{image.tags}@@@@@@@@@@@@"
           image.url == url &&
             ((tags.present? && image.tags == tags) || tags.nil?)
         end
