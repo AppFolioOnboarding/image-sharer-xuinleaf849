@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 15.times do |n|
-  Image.create!(imagelink: "https://dummyimage.com/3#{n}"), tag_list: 'foo, bar')
+  Image.create!(imagelink: "https://dummyimage.com/3#{n}", tag_list: 'foo, bar')
 end
 
 5.times do |n|
-  Image.create!(imagelink: "https://dummyimage.com/3#{n}"))
+  Image.create!(imagelink: "https://dummyimage.com/3#{n}")
 end
