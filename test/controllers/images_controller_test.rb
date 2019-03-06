@@ -4,8 +4,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_index__images_in_desc_order
     images = [
       { imagelink: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', tag_list: %w[appfolio logo] },
-      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg', tag_list: 'foo' },
-      { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
+      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg', tag_list: 'foo' }, # rubocop:disable Metrics/LineLength
+      { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] } # rubocop:disable Metrics/LineLength
     ]
     Image.create(images.reverse)
 
@@ -24,8 +24,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   def test_index__tags_with_links
     images = [
       { imagelink: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', tag_list: %w[appfolio logo] },
-      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg', tag_list: 'foo' },
-      { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] }  # rubocop:disable Metrics/LineLength
+      { imagelink: 'https://pbs.twimg.com/profile_images/999418366858149888/zKQCw1Ok_400x400.jpg', tag_list: 'foo' }, # rubocop:disable Metrics/LineLength
+      { imagelink: 'https://microsmallcap.com/wp-content/uploads/sites/2/2018/01/AppFolio-The-Dip-is-a-Buying-Opportunity-.png', tag_list: ['appfolio'] } # rubocop:disable Metrics/LineLength
     ]
     Image.create(images.reverse)
 
@@ -78,9 +78,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       post images_path, params: { image: image_params }
     end
   end
-Ω
+
   def test_show__image_found
-    image_show = Image.create!(imagelink: 'https://images.pexels.com/photos/33053/dog-young-dog-small-dog-maltese.jpg?cs=srgb&dl=animal-dog-maltese-33053.jpg&fm=jpg')
+    image_show = Image.create!(imagelink: 'https://images.pexels.com/photos/33053/dog-young-dog-small-dog-maltese.jpg?cs=srgb&dl=animal-dog-maltese-33053.jpg&fm=jpg', tag_list: 'foo') # rubocop:disable Metrics/LineLength
     get image_path(image_show.id)
     assert_response :ok
     assert_select '.image-show', count: 1
@@ -91,13 +91,6 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get image_path(image_tag.id)
     assert_response :ok
     assert_select 'li', count: 2
-  end
-
-  def test_show__no_tag
-    image = Image.create!(imagelink: 'https://images.pexels.com/photos/33053/dog-young-dog-small-dog-maltese.jpg?cs=srgb&dl=animal-dog-maltese-33053.jpg&fm=jpg', tag_list: []) # rubocop:disable  Metrics/LineLength
-    get image_path(image.id)
-    assert_response :ok
-    assert_select 'li', count: 0
   end
 
   def test_destroy
