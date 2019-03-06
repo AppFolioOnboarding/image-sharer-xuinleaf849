@@ -1,0 +1,28 @@
+<h1>edit the tag </h1>
+
+<%= image_tag @image.imagelink, class: 'image-edit' %>
+
+<%= form_for(@image, url: image_path) do |form| %>
+    <% if @image.errors.any? %>
+        <div id="error_explanation">
+          <ul>
+            <% @image.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <p>
+      <%= form.label  'Tag list, seperate with comma' %><br>
+      <%= form.text_field :tag_list %>
+      <%= form.submit "Update" %>
+    </p>
+
+
+<% end %>
+
+<%= button_to "Back to index page", images_path, method: :get %>
+
+
+
