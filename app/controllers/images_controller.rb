@@ -37,9 +37,27 @@ class ImagesController < ApplicationController
     redirect_to(images_path)
   end
 
+  def edit
+    @image = Image.find(params[:id])
+  end
+
+  def update
+    @image = Image.find(params[:id])
+    if @image.update(update_params)
+      redirect_to image_path(@image)
+    else
+      flash[:alert] = "#{params[:tag_list]} is an invalid tag list"
+      render :edit
+    end
+  end
+
   private
 
   def image_params
     params.require(:image).permit(:imagelink, :tag_list)
+  end
+
+  def update_params
+    params.require(:image).permit(:tag_list)
   end
 end

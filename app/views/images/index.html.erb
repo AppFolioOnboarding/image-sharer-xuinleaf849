@@ -6,6 +6,7 @@
   <% @images.each do |image| %>
     <span class="js-image-card">
       <%= link_to image_tag(image.imagelink, class: 'image-display'), image_path(image.id), class: 'js-image-link' %>
+      <%= link_to 'Edit', edit_image_path(image.id)  %>
       <%= link_to 'Delete', image_path(image.id), method: :delete, data: { confirm: 'Are you sure?' } %>
       <% if image.tag_list.present? %>
         <div class="js-tag-list">
@@ -14,7 +15,7 @@
           <% end %>
         </div>
       <% end %>
-    </span>
+    </span><br>
   <% end %>
 </div>
 

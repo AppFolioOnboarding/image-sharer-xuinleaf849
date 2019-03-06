@@ -104,4 +104,30 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to images_path
     assert_equal 'You have successfully deleted the image.', flash[:success]
   end
+
+  def test_edit
+    image = Image.create!(imagelink: 'https://mydomain/image1.jpg', tag_list: %w[foo bar])
+    image.save
+    get edit_image_path(image.id)
+    assert_response :ok
+
+    assert_select '.image-edit', 1
+    assert_select '.edit_image', 1
+  end
+
+  def test_update
+    image = Image.create!(imagelink: 'https://mydomain/image1.jpg', tag_list: %w[foo bar])
+    put image_path(image.id), params: { image: { tag_list: 'tag' } }
+
+    assert_redirected_to image_path(image)
+    assert_equal ['tag'], image.reload.tag_list
+  end
+
+  def test_update__fails_on_empty
+    image = Image.create!(imagelink: 'https://www.image1.com/', tag_list: %w[foo bar])
+    put image_path image, params: { image: { tag_list: '' } }
+
+    assert_equal %w[foo bar], image.reload.tag_list
+    assert_select '.alert-alert', 'is an invalid tag list'
+  end
 end
